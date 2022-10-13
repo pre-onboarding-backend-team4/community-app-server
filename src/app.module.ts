@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './users/users.entity';
-import { Post, Reaction, Reply } from './posts/posts.entity';
+import { Posts, Reaction, Reply } from './posts/posts.entity';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { UsersController } from './users/users.controller';
@@ -22,13 +22,13 @@ import { PostsService } from './posts/posts.service';
       username: process.env.DATASOURCE_USERNAME,
       password: process.env.DATASOURCE_PASSWORD,
       database: process.env.DATASOURCE_DATABASE,
-      entities: [User, Post, Reaction, Reply],
-      synchronize: true,
+      entities: [User, Posts, Reaction, Reply],
+      synchronize: false,
     }),
     UsersModule,
     PostsModule,
   ],
-  controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService],
+  controllers: [AppController, UsersController],
+  providers: [AppService, UsersService],
 })
 export class AppModule {}

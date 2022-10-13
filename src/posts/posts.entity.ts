@@ -16,18 +16,18 @@ import {
 import { User } from '../users/users.entity';
 
 @Entity({ name: 'posts' })
-export class Post extends BaseEntity {
+export class Posts extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
-  private title: string;
+  title: string;
 
   @Column({ nullable: false })
-  private content: string;
+  content: string;
 
   @Column({ nullable: false })
-  private authority: number;
+  authority: number;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -41,6 +41,9 @@ export class Post extends BaseEntity {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public updated_at: Date;
+
+  @Column()
+  user_id: number;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
@@ -71,9 +74,9 @@ export class Reaction extends BaseEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
-  @ManyToOne(() => Post, (post) => post.id)
+  @ManyToOne(() => Posts, (post) => post.id)
   @JoinColumn({ name: 'post_id', referencedColumnName: 'id' })
-  post: Post;
+  post: Posts;
 }
 
 @Entity({ name: 'replys' })
@@ -101,7 +104,7 @@ export class Reply extends BaseEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
-  @ManyToOne(() => Post, (post) => post.id)
+  @ManyToOne(() => Posts, (post) => post.id)
   @JoinColumn({ name: 'post_id', referencedColumnName: 'id' })
-  post: Post;
+  post: Posts;
 }
