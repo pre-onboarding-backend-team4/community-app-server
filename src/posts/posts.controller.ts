@@ -61,8 +61,6 @@ export class PostsController {
 }
 
 
-  // 특정 post 삭제
-  // 토큰에서 user_id 값 얻어서
   @Delete('/:postId')
   // @UseGuards(AuthGuard())
   deletePost( @Param('postId') postId: number ) {

@@ -85,7 +85,7 @@ export class Reply extends BaseEntity {
   id: number;
 
   @Column({ nullable: false })
-  private content: number;
+  public content: string;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -100,11 +100,18 @@ export class Reply extends BaseEntity {
   })
   public updated_at: Date;
 
+  @Column({ nullable: false })
+  public user_id: number;
+
+  @Column({ nullable: false })
+  public post_id: number;
+
+  /*
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
   @ManyToOne(() => Posts, (post) => post.id)
   @JoinColumn({ name: 'post_id', referencedColumnName: 'id' })
-  post: Posts;
+  post: Posts;*/
 }

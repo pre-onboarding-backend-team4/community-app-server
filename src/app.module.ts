@@ -11,6 +11,11 @@ import { UsersService } from './users/users.service';
 import { PostsModule } from './posts/posts.module';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
+import { ReplysModule } from './replys/replys.module';
+import { ReplysController } from './replys/replys.controller';
+import { ReplysService } from './replys/replys.service';
+import { TypeOrmExModule } from './typeorm-ex.module';
+import { ReplyRepository } from './replys/replys.repository';
 
 @Module({
   imports: [
@@ -23,12 +28,19 @@ import { PostsService } from './posts/posts.service';
       password: process.env.DATASOURCE_PASSWORD,
       database: process.env.DATASOURCE_DATABASE,
       entities: [User, Posts, Reaction, Reply],
-      synchronize: false,
+      synchronize: true,
     }),
+    TypeOrmExModule.forCustomRepository([ReplyRepository]),
     UsersModule,
     PostsModule,
+    ReplysModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService],
+  controllers: [
+    AppController,
+    UsersController,
+    PostsController,
+    ReplysController,
+  ],
+  providers: [AppService, UsersService, PostsService, ReplysService],
 })
 export class AppModule {}
