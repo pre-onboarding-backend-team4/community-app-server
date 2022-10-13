@@ -14,7 +14,7 @@ import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor'
 import { Reply, Posts } from '../posts/posts.entity';
 import { User } from '../users/users.entity';
 
-@Controller('comment')
+@Controller('comments')
 //@UseInterceptors(SuccessInterceptor)
 //@UseFilters(HttpExceptionFilter)
 export class ReplysController {

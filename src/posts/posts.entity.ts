@@ -67,13 +67,20 @@ export class Reaction extends BaseEntity {
   })
   public created_at: Date;
 
+  @Column({ nullable: false })
+  public user_id: number;
+
+  @Column({ nullable: false })
+  public post_id: number;
+
+  /*
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
   @ManyToOne(() => Posts, (post) => post.id)
   @JoinColumn({ name: 'post_id', referencedColumnName: 'id' })
-  post: Posts;
+  post: Posts;*/
 }
 
 @Entity({ name: 'replys' })
