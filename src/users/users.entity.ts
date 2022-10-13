@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Post, Reaction, Reply } from '../posts/posts.entity';
+import { Posts, Reaction, Reply } from '../posts/posts.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -27,8 +27,8 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   private password: string;
 
-  @OneToMany(() => Post, (posts) => posts.id)
-  posts: Post[];
+  @OneToMany(() => Posts, (posts) => posts.id)
+  posts: Posts[];
 
   @OneToMany(() => Reaction, (reactions) => reactions.id)
   reactions: Reaction[];
