@@ -19,7 +19,9 @@ import { ReplyRepository } from './replys/replys.repository';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATASOURCE_URL,
@@ -30,17 +32,12 @@ import { ReplyRepository } from './replys/replys.repository';
       entities: [User, Posts, Reaction, Reply],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([User]),
     TypeOrmExModule.forCustomRepository([ReplyRepository]),
-    UsersModule,
     PostsModule,
     ReplysModule,
   ],
-  controllers: [
-    AppController,
-    UsersController,
-    PostsController,
-    ReplysController,
-  ],
-  providers: [AppService, UsersService, PostsService, ReplysService],
+  controllers: [AppController, PostsController, ReplysController],
+  providers: [AppService, PostsService, ReplysService],
 })
 export class AppModule {}
