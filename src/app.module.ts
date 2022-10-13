@@ -16,10 +16,16 @@ import { ReplysController } from './replys/replys.controller';
 import { ReplysService } from './replys/replys.service';
 import { TypeOrmExModule } from './typeorm-ex.module';
 import { ReplyRepository } from './replys/replys.repository';
+import { ReactionsModule } from './reactions/reactions.module';
+import { ReactionsController } from './reactions/reactions.controller';
+import { ReactionRepository } from './reactions/reactions.repository';
+import { ReactionsService } from './reactions/reactions.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATASOURCE_URL,
@@ -30,17 +36,24 @@ import { ReplyRepository } from './replys/replys.repository';
       entities: [User, Posts, Reaction, Reply],
       synchronize: true,
     }),
-    TypeOrmExModule.forCustomRepository([ReplyRepository]),
+    TypeOrmModule.forFeature([User]),
+    TypeOrmExModule.forCustomRepository([ReplyRepository, ReactionRepository]),
     UsersModule,
     PostsModule,
     ReplysModule,
+    ReactionsModule,
   ],
   controllers: [
     AppController,
-    UsersController,
     PostsController,
     ReplysController,
+    ReactionsController,
   ],
-  providers: [AppService, UsersService, PostsService, ReplysService],
+  providers: [
+    AppService,
+    PostsService,
+    ReplysService,
+    ReactionsService,
+  ],
 })
 export class AppModule {}
