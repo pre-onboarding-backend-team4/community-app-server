@@ -64,7 +64,7 @@
 
 **[🔗 팔로우, 언팔로우]()**
 
-**[🔗 포스트 C/R/R/U/D]()**
+**[🔗 포스트 C/R/R/U/D](https://documenter.getpostman.com/view/22723173/2s83zpL1fL)**
 
 **[🔗 포스트에 답변, 리액션 남기기](https://documenter.getpostman.com/view/21288917/2s83zpLMDZ)**
 
