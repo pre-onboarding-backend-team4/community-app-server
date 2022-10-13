@@ -6,15 +6,15 @@ import { User } from './users/users.entity';
 import { Post, Reaction, Reply } from './posts/posts.entity';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
 import { PostsModule } from './posts/posts.module';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATASOURCE_URL,
@@ -25,10 +25,11 @@ import { PostsService } from './posts/posts.service';
       entities: [User, Post, Reaction, Reply],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([User]),
     UsersModule,
     PostsModule,
   ],
-  controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService],
+  controllers: [AppController, PostsController],
+  providers: [AppService, PostsService],
 })
 export class AppModule {}
