@@ -19,13 +19,13 @@ export class User extends BaseEntity {
   id: number;
 
   @Column({ nullable: false })
-  private name: string;
+  name: string;
 
   @Column({ nullable: false, unique: true })
-  private email: string;
+  email: string;
 
   @Column({ nullable: false })
-  private password: string;
+  password: string;
 
   @OneToMany(() => Posts, (posts) => posts.id)
   posts: Posts[];

@@ -23,7 +23,9 @@ import { ReactionsService } from './reactions/reactions.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATASOURCE_URL,
@@ -34,6 +36,7 @@ import { ReactionsService } from './reactions/reactions.service';
       entities: [User, Posts, Reaction, Reply],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([User]),
     TypeOrmExModule.forCustomRepository([ReplyRepository, ReactionRepository]),
     UsersModule,
     PostsModule,
@@ -42,14 +45,12 @@ import { ReactionsService } from './reactions/reactions.service';
   ],
   controllers: [
     AppController,
-    UsersController,
     PostsController,
     ReplysController,
     ReactionsController,
   ],
   providers: [
     AppService,
-    UsersService,
     PostsService,
     ReplysService,
     ReactionsService,
