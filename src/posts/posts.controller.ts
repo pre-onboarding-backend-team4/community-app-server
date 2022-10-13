@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport';
 // import { getCustomRepositoryToken } from '@nestjs/typeorm';
-import { CreatePostDto } from './dto/create-posts.dto';
-import { UpdatePostDto } from './dto/update-posts.dto';
+import { CreatePostDto } from './dto/createPostsDto';
+import { UpdatePostDto } from './dto/updatePostsDto';
 import { Posts } from './posts.entity';
 import { PostsService } from './posts.service';
 
@@ -12,16 +12,20 @@ export class PostsController {
   
   
   @Post()
-  // @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   createPost( @Body() createPostDto: CreatePostDto,
+              @Body() email: string
               // @Req() req: Request
             ): Promise<Posts> {
     // createPostDto.user_id = req.user
-    createPostDto.user_id = 2 ;
+    createPostDto.user_id = 1 ;
+    this.postsService.getUserIdByEmail(email);
     return this.postsService.createPost(createPostDto);
   }
-  //@Headers('user_id') user_id: number
+  //@Headers('email') email: string
+  // this.postsService.getUserIdByEmail(email: string);
+  // 
   //@Headers('token').user_id user_id: number
 
 
@@ -57,6 +61,7 @@ export class PostsController {
     ): Promise<Posts> {
       // const userId = req.user
     const userId = 1;
+    // 
     return this.postsService.updatePost(id, userId, updatePostDto);
 }
 

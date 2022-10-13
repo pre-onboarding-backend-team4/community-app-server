@@ -28,7 +28,7 @@ import { ReplyRepository } from './replys/replys.repository';
       password: process.env.DATASOURCE_PASSWORD,
       database: process.env.DATASOURCE_DATABASE,
       entities: [User, Posts, Reaction, Reply],
-      synchronize: true,
+      synchronize: false,
     }),
     TypeOrmExModule.forCustomRepository([ReplyRepository]),
     UsersModule,
@@ -37,10 +37,8 @@ import { ReplyRepository } from './replys/replys.repository';
   ],
   controllers: [
     AppController,
-    UsersController,
-    PostsController,
     ReplysController,
   ],
-  providers: [AppService, UsersService, PostsService, ReplysService],
+  providers: [AppService, ReplysService],
 })
 export class AppModule {}
