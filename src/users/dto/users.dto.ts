@@ -1,4 +1,4 @@
-import { IsString, Matches, MinLength } from 'class-validator';
+import { IsString, Matches, MinLength, IsNotEmpty } from 'class-validator';
 
 export class UserDto {
   @IsString()
@@ -40,6 +40,6 @@ export class SignInDto {
 }
 
 export class FollowDto {
-  user_id: number;
+  @IsNotEmpty()
   followed_id: number;
 }
