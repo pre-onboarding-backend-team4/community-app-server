@@ -53,7 +53,7 @@ export class UsersService {
     const { email, password } = signInDto;
     const user = await this.userRepository.findOne({ where: { email } });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user || (await bcrypt.compare(password, user.password))) {
       const payload = { email };
       const accessToken = await this.jwtService.sign(payload);
       return { message: 'LOGIN_SUCCESS', token: accessToken };

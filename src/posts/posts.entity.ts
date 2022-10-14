@@ -21,13 +21,13 @@ export class Posts extends BaseEntity {
   id: number;
 
   @Column({ nullable: false })
-  private title: string;
+  title: string;
 
   @Column({ nullable: false })
-  private content: string;
+  content: string;
 
   @Column({ nullable: false })
-  private authority: number;
+  authority: number;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -41,6 +41,9 @@ export class Posts extends BaseEntity {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public updated_at: Date;
+
+  @Column()
+  user_id: number;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
