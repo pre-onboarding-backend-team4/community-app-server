@@ -16,13 +16,10 @@ export class PostsService {
     private userRepository: Repository<User>) {}
 
 
-  async getUserIdByEmail(email: string): Promise<any> {
+  async createPost(email: string, createPostDto: CreatePostDto): Promise<Posts> {
     const user = await this.userRepository.findOneBy({ email })
-    console.log(user)
-    return user;
-  }
-
-  async createPost(createPostDto: CreatePostDto): Promise<Posts> {
+    createPostDto.user_id = user.id
+    
     const post = this.postRepository.create(createPostDto)
     await this.postRepository.save(post);
     return post;
@@ -69,16 +66,25 @@ export class PostsService {
   }
 
 
-  async updatePost(id: number, userId: number, updatePostDto: UpdatePostDto): Promise<Posts> {
-    await this.postRepository.update([id, userId], updatePostDto)
-    return this.postRepository.findOneBy({ id });
+  async updatePost(postId: number, email: string, updatePostDto: UpdatePostDto): Promise<Posts> {
+    const user = await this.userRepository.findOneBy({ email })
+    const userId = user.id
+  
+    const updateRes = await this.postRepository.update({ id: postId, user_id: userId}, updatePostDto)
+    if(!updateRes.affected) throw new Error("FAILED")
+
+    return this.postRepository.findOneBy({ id: postId });
   }
 
 
   // 작성자만 삭제
-  async deletePost(postId: number, userId: number) {
+  async deletePost(postId: number, email: string) {
     const foundPost = await this.postRepository.findOneBy({ id: postId })
     if(!foundPost) throw new NotFoundException("Not_Found")
+
+    const user = await this.userRepository.findOneBy({ email })
+    const userId = user.id
+
     const deleteRes = await this.postRepository.delete({ id: postId, user_id: userId });
     if(!deleteRes.affected) throw new Error("FAILED")
   }

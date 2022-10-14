@@ -1,32 +1,29 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, Patch, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 // import { getCustomRepositoryToken } from '@nestjs/typeorm';
 import { CreatePostDto } from './dto/createPostsDto';
 import { UpdatePostDto } from './dto/updatePostsDto';
 import { Posts } from './posts.entity';
 import { PostsService } from './posts.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('posts')
 export class PostsController { 
-  constructor(private postsService: PostsService) {}
-  
-  
+  constructor(
+    private postsService: PostsService,
+    private jwtService: JwtService) {}
+
+
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
-  createPost( @Body() createPostDto: CreatePostDto,
-              @Body() email: string
-              // @Req() req: Request
+  createPost(
+    @Headers('token') token: string,
+    @Body() createPostDto: CreatePostDto,
             ): Promise<Posts> {
-    // createPostDto.user_id = req.user
-    createPostDto.user_id = 1 ;
-    this.postsService.getUserIdByEmail(email);
-    return this.postsService.createPost(createPostDto);
+    const user = this.jwtService.verify(token, {secret: process.env.SECRET});
+    return this.postsService.createPost(user.email, createPostDto);
   }
-  //@Headers('email') email: string
-  // this.postsService.getUserIdByEmail(email: string);
-  // 
-  //@Headers('token').user_id user_id: number
 
 
   // post 목록 - 공개글만
@@ -54,24 +51,22 @@ export class PostsController {
   @Patch('/:postId')
   // @UseGuards(AuthGuard())  
   updatePost( 
-    @Param('postId') id: number,
+    @Headers('token') token: string,
+    @Param('postId') postId: number,
     @Body() updatePostDto: UpdatePostDto
-              // @Req() req: Request
-
     ): Promise<Posts> {
-      // const userId = req.user
-    const userId = 1;
-    // 
-    return this.postsService.updatePost(id, userId, updatePostDto);
+    const user = this.jwtService.verify(token, {secret: process.env.SECRET});
+    return this.postsService.updatePost(postId, user.email, updatePostDto);
 }
 
 
   @Delete('/:postId')
   // @UseGuards(AuthGuard())
-  deletePost( @Param('postId') postId: number ) {
-              // @Req() req: Request
-      // const userId = req.user
-    const userId = 1;
-    this.postsService.deletePost(postId, userId);
+  deletePost( 
+    @Headers('token') token: string,
+    @Param('postId') postId: number ) {
+    
+    const user = this.jwtService.verify(token, {secret: process.env.SECRET});
+    this.postsService.deletePost(postId, user.email);
   }
 }
