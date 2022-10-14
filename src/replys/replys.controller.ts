@@ -15,8 +15,8 @@ import { Reply, Posts } from '../posts/posts.entity';
 import { User } from '../users/users.entity';
 
 @Controller('comments')
-//@UseInterceptors(SuccessInterceptor)
-//@UseFilters(HttpExceptionFilter)
+@UseInterceptors(SuccessInterceptor)
+@UseFilters(HttpExceptionFilter)
 export class ReplysController {
   constructor(private replysService: ReplysService) {
     this.replysService = replysService;
