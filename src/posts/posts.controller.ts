@@ -1,6 +1,4 @@
-import { Body, Controller, Delete, Get, Headers, Param, Patch, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-// import { getCustomRepositoryToken } from '@nestjs/typeorm';
+import { Body, Controller, Delete, Get, Headers, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePostDto } from './dto/createPostsDto';
 import { UpdatePostDto } from './dto/updatePostsDto';
 import { Posts } from './posts.entity';
@@ -19,8 +17,8 @@ export class PostsController {
   @UsePipes(ValidationPipe)
   createPost(
     @Headers('token') token: string,
-    @Body() createPostDto: CreatePostDto,
-            ): Promise<Posts> {
+    @Body() createPostDto: CreatePostDto ): Promise<Posts> {
+
     const user = this.jwtService.verify(token, {secret: process.env.SECRET});
     return this.postsService.createPost(user.email, createPostDto);
   }
@@ -49,19 +47,17 @@ export class PostsController {
 
   // 특정 post 수정(title || content || authority)
   @Patch('/:postId')
-  // @UseGuards(AuthGuard())  
   updatePost( 
     @Headers('token') token: string,
     @Param('postId') postId: number,
-    @Body() updatePostDto: UpdatePostDto
-    ): Promise<Posts> {
+    @Body() updatePostDto: UpdatePostDto): Promise<Posts> {
+
     const user = this.jwtService.verify(token, {secret: process.env.SECRET});
     return this.postsService.updatePost(postId, user.email, updatePostDto);
 }
 
 
   @Delete('/:postId')
-  // @UseGuards(AuthGuard())
   deletePost( 
     @Headers('token') token: string,
     @Param('postId') postId: number ) {

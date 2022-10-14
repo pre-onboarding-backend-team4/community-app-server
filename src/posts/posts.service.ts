@@ -40,7 +40,6 @@ export class PostsService {
         authority: 1
       }
     })  
-    // findBy({ authority: 1 });
   }
 
 
@@ -77,7 +76,6 @@ export class PostsService {
   }
 
 
-  // 작성자만 삭제
   async deletePost(postId: number, email: string) {
     const foundPost = await this.postRepository.findOneBy({ id: postId })
     if(!foundPost) throw new NotFoundException("Not_Found")
