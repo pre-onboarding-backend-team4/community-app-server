@@ -38,3 +38,8 @@ export class SignInDto {
   })
   password: string;
 }
+
+export class FollowDto {
+  user_id: number;
+  followed_id: number;
+}
