@@ -31,7 +31,7 @@ export class ReactionsController {
 
   @Delete('/:id')
   deleteBoard(
-    @Body('user_id') body,
+    @Body('user_id', ParseIntPipe) body,
     @Param('id', ParseIntPipe) id,
   ): Promise<void> {
     return this.reactionsService.deleteReaction(body, id);
