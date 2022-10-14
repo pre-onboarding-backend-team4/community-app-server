@@ -16,7 +16,10 @@ import { TypeOrmExModule } from './typeorm-ex.module';
 import { ReplyRepository } from './replys/replys.repository';
 import { ReactionsModule } from './reactions/reactions.module';
 import { ReactionsController } from './reactions/reactions.controller';
-import { ReactionRepository } from './reactions/reactions.repository';
+import {
+  ReactionRepository,
+  UserRepository,
+} from './reactions/reactions.repository';
 import { ReactionsService } from './reactions/reactions.service';
 
 @Module({
@@ -34,17 +37,18 @@ import { ReactionsService } from './reactions/reactions.service';
       entities: [User, Posts, Reaction, Reply],
       synchronize: true,
     }),
-    TypeOrmExModule.forCustomRepository([ReplyRepository, ReactionRepository]),
+    TypeOrmModule.forFeature([User]),
+    TypeOrmExModule.forCustomRepository([
+      ReplyRepository,
+      ReactionRepository,
+      UserRepository,
+    ]),
     UsersModule,
     PostsModule,
     ReplysModule,
     ReactionsModule,
   ],
-  controllers: [
-    AppController,
-    ReplysController,
-    ReactionsController,
-  ],
+  controllers: [AppController, ReplysController, ReactionsController],
   providers: [AppService, ReplysService, ReactionsService],
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
 import { Repository } from 'typeorm';
 import { Reaction } from '../posts/posts.entity';
+import { User } from '../users/users.entity';
 import { CreateReactionDto } from './createReactionDto';
 import { CustomRepository } from '../typeorm-ex.decorator';
 
@@ -18,3 +19,6 @@ export class ReactionRepository extends Repository<Reaction> {
     return reaction;
   }
 }
+
+@CustomRepository(User)
+export class UserRepository extends Repository<User> {}
