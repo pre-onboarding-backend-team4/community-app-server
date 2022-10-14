@@ -7,8 +7,6 @@ import { Posts, Reaction, Reply } from './posts/posts.entity';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
-import { PostsController } from './posts/posts.controller';
-import { PostsService } from './posts/posts.service';
 import { ReplysModule } from './replys/replys.module';
 import { ReplysController } from './replys/replys.controller';
 import { ReplysService } from './replys/replys.service';
@@ -35,7 +33,7 @@ import { ReactionsService } from './reactions/reactions.service';
       password: process.env.DATASOURCE_PASSWORD,
       database: process.env.DATASOURCE_DATABASE,
       entities: [User, Posts, Reaction, Reply],
-      synchronize: false,
+      synchronize: true,
     }),
     TypeOrmModule.forFeature([User]),
     TypeOrmExModule.forCustomRepository([
