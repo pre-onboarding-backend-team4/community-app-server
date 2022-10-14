@@ -32,7 +32,7 @@ import { ReactionsService } from './reactions/reactions.service';
       password: process.env.DATASOURCE_PASSWORD,
       database: process.env.DATASOURCE_DATABASE,
       entities: [User, Posts, Reaction, Reply],
-      synchronize: false,
+      synchronize: true,
     }),
     TypeOrmExModule.forCustomRepository([ReplyRepository, ReactionRepository]),
     UsersModule,
