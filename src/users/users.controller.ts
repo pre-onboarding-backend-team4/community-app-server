@@ -1,10 +1,20 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Headers,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { SignInDto, UserDto, FollowDto } from './dto/users.dto';
 import { UsersService } from './users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   @Post('/signup')
   signUp(@Body(ValidationPipe) userDto: UserDto) {
@@ -17,7 +27,11 @@ export class UsersController {
   }
 
   @Post('/follow')
-  follow(@Body(ValidationPipe) followDto: FollowDto) {
-    return this.usersService.follow(followDto);
+  follow(
+    @Headers('token') token: string,
+    @Body(ValidationPipe) followDto: FollowDto,
+  ) {
+    const user = this.jwtService.verify(token, { secret: process.env.SECRET });
+    return this.usersService.follow(user.email, followDto);
   }
 }

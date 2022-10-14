@@ -62,12 +62,18 @@ export class UsersService {
     }
   }
 
-  async follow(followDto: FollowDto) {
-    const { followed_id, user_id } = followDto;
-    const user = await this.userRepository.findOne({ where: { id: user_id } });
+  async follow(user_email, followDto: FollowDto) {
+    const { followed_id } = followDto;
+    const user = await this.userRepository.findOne({
+      where: { email: user_email },
+    });
     const followed_user = await this.userRepository.findOne({
       where: { id: followed_id },
     });
+
+    if (user === followed_user) {
+      throw new Error('CANNOT_FOLLOW_ONESELF');
+    }
 
     if (!user) {
       throw new Error('USER_ID_INVALID');
