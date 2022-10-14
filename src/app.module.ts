@@ -6,8 +6,6 @@ import { User } from './users/users.entity';
 import { Posts, Reaction, Reply } from './posts/posts.entity';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
 import { PostsModule } from './posts/posts.module';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';

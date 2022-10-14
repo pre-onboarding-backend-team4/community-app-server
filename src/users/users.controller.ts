@@ -8,7 +8,6 @@ export class UsersController {
 
 /*  @Post('/signup')
   signUp(@Body(ValidationPipe) userDto: UserDto) {
-    console.log('test');
     return this.usersService.signUp(userDto);
   }
 */
