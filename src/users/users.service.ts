@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDto, SignInDto } from './dto/users.dto';
+import { UserDto, SignInDto, FollowDto } from './dto/users.dto';
 import { User } from './users.entity';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
@@ -59,6 +59,30 @@ export class UsersService {
       return { message: 'LOGIN_SUCCESS', token: accessToken };
     } else {
       throw new UnauthorizedException('USER_NOT_FOUND');
+    }
+  }
+
+  async follow(followDto: FollowDto) {
+    const { followed_id, user_id } = followDto;
+    const user = await this.userRepository.findOne({ where: { id: user_id } });
+    const followed_user = await this.userRepository.findOne({
+      where: { id: followed_id },
+    });
+
+    if (!user) {
+      throw new Error('USER_ID_INVALID');
+    }
+
+    if (!followed_user) {
+      throw new Error('FOLLOWED_USER_ID_INVALID');
+    }
+
+    try {
+      user.followed_ids = [followed_user];
+      await this.userRepository.save(user);
+      return { message: 'FOLLOW_SUCCESS' };
+    } catch (error) {
+      console.log('error', error);
     }
   }
 }
