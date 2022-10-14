@@ -32,9 +32,8 @@ import { ReactionsService } from './reactions/reactions.service';
       password: process.env.DATASOURCE_PASSWORD,
       database: process.env.DATASOURCE_DATABASE,
       entities: [User, Posts, Reaction, Reply],
-      synchronize: true,
+      synchronize: false,
     }),
-    TypeOrmModule.forFeature([User]),
     TypeOrmExModule.forCustomRepository([ReplyRepository, ReactionRepository]),
     UsersModule,
     PostsModule,
@@ -43,10 +42,9 @@ import { ReactionsService } from './reactions/reactions.service';
   ],
   controllers: [
     AppController,
-    PostsController,
     ReplysController,
     ReactionsController,
   ],
-  providers: [AppService, PostsService, ReplysService, ReactionsService],
+  providers: [AppService, ReplysService, ReactionsService],
 })
 export class AppModule {}

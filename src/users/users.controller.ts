@@ -6,11 +6,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Post('/signup')
+/*  @Post('/signup')
   signUp(@Body(ValidationPipe) userDto: UserDto) {
     return this.usersService.signUp(userDto);
   }
-
+*/
   @Post('/signin')
   signIn(@Body(ValidationPipe) signInDto: SignInDto) {
     return this.usersService.signIn(signInDto);
